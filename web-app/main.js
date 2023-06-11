@@ -1,1 +1,2 @@
-import R from "./ramda.js";
+import Slidingpuzzle from "./Sliding-puzzle.js";
+
