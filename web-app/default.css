@@ -4,22 +4,39 @@ body
     margin: 0;
 }
 
+@font-face
+{
+    font-family: "Kablammo";
+    src: url("./assets/Kablammo.ttf");
+    /* Licence: ./assets/OFL.txt */
+}
+
 header
 {
     width: 100%;
     position: absolute;
-    background: #ee5b9d60 ;
+    background-image: url("assets/4.jpg");
     height:100px;
+}
+
+header a
+{
+    color: var(--sidebar-colour);
+    position: absolute;
+    right: 1em;
+    top: 70px;
 }
 
 h1
 {
-    font-family: 'Brush Script MT', cursive;
-    font-style: italic;
+    font-family:"Kablammo";
     text-align: center;
-    text-shadow: 4px black;
-    font: size 100pt;
+    font-size:35px;
+    backdrop-filter: blur(2px);
+    color: white;
 }
+
+
 aside
 {
     width: 20%;
@@ -27,6 +44,13 @@ aside
     top: 100px;
     background-image: url("assets/2.jpg");
     height:88%;    
+}
+#timer
+{
+    position: absolute;
+    text-align: center;
+    font-size: 40pt;
+    font-family: 'Courier New', Courier, monospace;
 }
 .right
 {
@@ -74,16 +98,20 @@ main
     border: 1px solid beige;
     width: 50px;
     font-size:xx-large;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family:'Courier New', Courier, monospace;
+    font-weight: bold;
 }
-
+#empty
+{
+    background-color: white;
+}
 
 #result_dialog
 {
     background: none;
     border: none;
-    color: var(--sidebar-colour);
-    filter: drop-shadow(4px 4px 2px black);
+    color: white;
+    filter: drop-shadow(4px 2px 2px black);
     height: 100%;
     position: absolute;
     text-align: center;
@@ -97,9 +125,41 @@ main
 
 #result_dialog h2
 {
-    color: var(--banner-colour);
+    background-color:rgb(241, 148, 41);
     font-family: "Creepster";
     font-size: 100pt;
     margin: 0;
-    margin-top: calc(2 * var(--banner-height));
+    margin-top:10%;
+}
+
+#result_message
+{
+    font-size: 30pt;
+}
+#initial_dialog
+{
+    background: none;
+    border: none;
+    color: white;
+    filter: drop-shadow(4px 2px 2px black);
+    height: 100%;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+}
+#initial_dialog h2
+{
+    background-color:rgb(241, 148, 41);
+    font-family: "Creepster";
+    font-size: 100pt;
+    margin: 0;
+    margin-top:10%;
+}
+#initial_message
+{
+    font-size: 30pt;
+}
+#game_time
+{
+    font-size: 30pt;
 }

@@ -11,6 +11,7 @@
 
 <header>
     <h1>S l i d i n g  &nbsp;  P u z z l e !</h1>
+    <a href="/docs/">API Documentation</a>
 </header>
 
 <main>
@@ -20,10 +21,20 @@
     </div>
 </main>
 
-<aside></aside>
+<aside>
+    <div id="timer"></div>
+</aside>
 <div class="right"></div>
 <dialog id="result_dialog" tabindex="0" aria-label="Game over message">
     <h2>Game Over</h2>
-    <div id="result_message">Zombies overwhelm the defenses!</div>
-    <div id="result_winner">Freddie wins!</div>
+    <div id="result_message"></div>
+    <div id="game_time"></div>
 </dialog>
+<dialog id="initial_dialog" tabindex="0" aria-label="Game begin">
+    <h2>Game Begin</h2>
+    <div id="initial_message">Please click the cells around "0"(upward,downward,left and right) to change position with zero and make all numbers in ascendind order("0" is the last one).</div>
+    <div id="initial_message">[Click to start]</div>
+</dialog>
+<audio id="click_music" src="./assets/puzzle.mp3"></audio>
+<audio id="background_music" src="./assets/backgroundmusic.ogg"></audio>
+

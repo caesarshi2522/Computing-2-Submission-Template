@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Sliding-puzzle.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="Slidingpuzzle.html">Slidingpuzzle</a><ul class='methods'><li data-type='method'><a href="Slidingpuzzle.html#.findzerocell">findzerocell</a></li><li data-type='method'><a href="Slidingpuzzle.html#.initial_board">initial_board</a></li><li data-type='method'><a href="Slidingpuzzle.html#.movable">movable</a></li><li data-type='method'><a href="Slidingpuzzle.html#.move">move</a></li><li data-type='method'><a href="Slidingpuzzle.html#.randommove">randommove</a></li><li data-type='method'><a href="Slidingpuzzle.html#.shuffle">shuffle</a></li><li data-type='method'><a href="Slidingpuzzle.html#.successful">successful</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Sliding-puzzle.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Sliding-puzzle.js is a module to model and play Sliding puzzle game.
+ * https://en.wikipedia.org/wiki/Sliding_puzzle
+ * @namespace Slidingpuzzle
+ * @author Caesar Shi
+ * @version 2022/23
+ */
+const Slidingpuzzle = Object.create(null);
+
+
+/**
+ * Initialize an empty sliding puzzle board.
+ * Creates a 4x4 board with numbers from 1 to 15 arranged in ascending order,
+ * with the bottom-right cell empty represented by 0.
+ * @memberof Slidingpuzzle
+ * @function
+ * @returns {number[][]} An initial board for a sliding puzzle game.
+ */
+Slidingpuzzle.initial_board = function () {
+    const board=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+    const boardsize=4;
+    let number=0;
+    for (let i=0; i&lt;boardsize; i++){
+        for(let j=0; j&lt;boardsize; j++){
+            number=i*boardsize+j+1
+            if (number&lt;(boardsize*boardsize)){
+                board[i][j]=number;
+            }
+            else {
+                board[i][j]="0";
+            }
+        }
+    }
+    return board
+};
+
+
+/**
+ * Find the row and column of the zero cell in the sliding puzzle board.
+ * @memberof Slidingpuzzle
+ * @function findzerocell
+ * @param {number[][]} board - The sliding puzzle board.
+ * @returns {number[]} An array containing the row and column indices of the zero cell.
+*/
+Slidingpuzzle.findzerocell = function(board){
+    for (let i=0; i&lt;4; i++){
+        for (let j=0; j&lt;4; j++){
+            if (board[i][j]==="0"){
+                return [i,j]
+            }
+        }
+    }
+    console.log("We should never be here");
+}
+
+
+/**
+ * Check if a cell is movable to the empty cell in the sliding puzzle.
+ * @memberof Slidingpuzzle
+ * @function movable
+ * @param {number[]} cell - The coordinates of the cell to check for movability.
+ * @param {number[]} emptycell - The coordinates of the empty cell.
+ * @returns {boolean} True if the cell is movable to the empty cell, false otherwise.
+ * */
+Slidingpuzzle.movable= function(cell,emptycell){
+    const cellrow=cell[0];
+    const cellcol=cell[1];
+    const emptycellrow=emptycell[0];
+    const emptycellcol=emptycell[1];
+    if(cellcol===emptycellcol+1 &amp;&amp; cellrow===emptycellrow){
+        return true;
+    }
+    else{
+        if(cellcol===emptycellcol &amp;&amp; cellrow===emptycellrow+1){
+            return true;
+        }
+        else{
+            if(cellcol===emptycellcol &amp;&amp; cellrow===emptycellrow-1){
+                return true;
+            }
+            else{
+                if(cellcol===emptycellcol-1 &amp;&amp; cellrow===emptycellrow){
+                    return true
+                }
+            }
+        }
+    }
+    return false
+}
+
+
+/**
+ * Generate a random move for the empty cell in a sliding puzzle.
+ * @memberof Slidingpuzzle
+ * @function randommove
+ * @param {number[]} emptycell - The coordinates of the empty cell.
+ * @returns {number[]|undefined} The coordinates of the randomly selected cell to move the empty cell to, or undefined if no valid moves are available.
+ * */
+Slidingpuzzle.randommove = function(emptycell){
+    let cell0=emptycell[0]
+    let cell1=emptycell[1]
+    const possiblemoves=[]
+    if(cell0>0){
+        possiblemoves.push([cell0-1,cell1])
+    }
+    if(cell0&lt;3){
+        possiblemoves.push([cell0+1,cell1])
+    }
+    if(cell1>0){
+        possiblemoves.push([cell0,cell1-1])
+    }
+    if(cell1&lt;3){
+        possiblemoves.push([cell0,cell1+1])
+    }
+    if(possiblemoves.length>0){
+        const randomindex=Math.floor(Math.random()*possiblemoves.length);
+        return possiblemoves[randomindex]
+    }
+}
+
+
+/**
+ * Move a cell to the empty cell in a sliding puzzle board.
+ * @memberof Slidingpuzzle
+ * @function move
+ * @param {number[]} cell - The coordinates of the cell to be moved.
+ * @param {number[]} emptycell - The coordinates of the empty cell.
+ * @param {number[][]} board - The sliding puzzle board.
+ * @returns {number[][]} The updated sliding puzzle board after the move.
+ * */
+Slidingpuzzle.move= function(cell,emptycell,board){
+    const cellrow=cell[0];
+    const cellcol=cell[1];
+    const emptycellrow=emptycell[0];
+    const emptycellcol=emptycell[1];
+    const temp=board[cellrow][cellcol];
+    board[cellrow][cellcol]=board[emptycellrow][emptycellcol];
+    board[emptycellrow][emptycellcol]=temp;
+    return board
+}
+
+
+/**
+ * Check if the sliding puzzle board represents a successful arrangement.
+ * @memberof Slidingpuzzle
+ * @function successful
+ * @param {number[][]} board - The sliding puzzle board to check.
+ * @returns {boolean} True if the board represents a successful arrangement, false otherwise.
+ * */
+Slidingpuzzle.successful =function(board){
+    for(let i=0;i&lt;4;i++){
+        for(let j=0;j&lt;4;j++){
+            const number=i*4+j+1;
+            if (number===16){
+                if(board[i][j]!=="0"){
+                    return false;
+                };
+            }
+            else{
+                if (number!==board[i][j]){
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
+/**
+ * Shuffle the sliding puzzle board by performing random moves.
+ * @memberof Slidingpuzzle
+ * @function shuffle
+ * @param {number[][]} board - The sliding puzzle board to shuffle.
+ * @returns {number[][]} The shuffled sliding puzzle board.
+ * */
+const Shuffletimes=100;
+Slidingpuzzle.shuffle=function(board){
+    for (let i=0;i&lt;Shuffletimes;i++) {
+        const emptycell=Slidingpuzzle.findzerocell(board)
+        const randommovecell=Slidingpuzzle.randommove(emptycell)
+        board=Slidingpuzzle.move(randommovecell,emptycell,board)
+      };
+    }
+
+export default Object.freeze(Slidingpuzzle)</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Jun 19 2023 21:42:56 GMT+0100 (英国夏令时间) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>
